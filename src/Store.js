@@ -22,13 +22,20 @@ export default class Store {
             this.selectedDeck = shuffle(this.selectedDeck);
         }
     }
+
+    moveToBottom = cardId => {
+        const idx = this.selectedDeck.indexOf(cardId);
+        if (idx !== -1) this.selectedDeck.splice(idx, 1);
+        this.selectedDeck.push(cardId);
+    }
 }
 
 decorate(Store, {
     selectedDeckId: observable,
     selectedDeck: observable,
     selectDeck: action,
-    shuffleDeck: action
+    shuffleDeck: action,
+    moveToBottom: action
 });
 
 configure({ enforceActions: 'observed' });
