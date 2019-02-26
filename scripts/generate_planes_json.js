@@ -51,9 +51,13 @@ const getSets = cards => {
     for (const id in cards) {
         const card = cards[id];
         if (!sets[card.set]) {
-            sets[card.set] = {};
+            sets[card.set] = {
+                name: card.set,
+                nameFormatted: cleanName(card.set, true),
+                cards: []
+            };
         }
-        sets[card.set][id] = true;
+        sets[card.set].cards.push(id);
     }
 
     return sets;

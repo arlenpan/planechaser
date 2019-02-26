@@ -1,26 +1,24 @@
-import React, { Component } from 'react';
-import cards from './data/cards.json';
+import React from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Provider } from 'mobx-react';
 
-export default class App extends Component {
-    shuffle = a => {
-        var j, x, i;
-        for (i = a.length - 1; i > 0; i--) {
-            j = Math.floor(Math.random() * (i + 1));
-            x = a[i];
-            a[i] = a[j];
-            a[j] = x;
-        }
-        return a;
-    }
+import Home from './pages/Home';
+import Game from './pages/Game';
+import Store from './Store.js';
 
+const store = new Store();
+
+export default class App extends React.Component {
     render() {
-        const cardsShuffled = this.shuffle(Object.values(cards));
         return (
-            <div className="main-container">
-                {cardsShuffled.map(c => (
-                    <img src={process.env.PUBLIC_URL + c.path} />
-                ))}
-            </div>
+            <Provider store={store}>
+                <Router>
+                    <div className="main-container">
+                        <Route path="/game" component={Game} />
+                        <Route exact path="/" component={Home} />
+                    </div>
+                </Router>
+            </Provider>
         );
     }
 }
