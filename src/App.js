@@ -15,7 +15,7 @@ export default class App extends React.Component {
         return (
             <Provider gameStore={gameStore} appStore={appStore}>
                 <Router>
-                    <div className="main-container">
+                    <div className="container main-container">
                         <Route path="/game" component={Game} />
                         <Route exact path="/" component={Home} />
                     </div>

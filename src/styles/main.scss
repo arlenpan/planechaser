@@ -1,3 +1,18 @@
+
+// COLORS
+
+$color-bg: #FFFFFD;
+
+// MEDIA QUERIES
+$break-small: 576px;
+@mixin media-query($size) {
+    @if $size == sm {
+        @media only screen and (max-width: $break-small) { @content; }
+    }
+}
+
+// MAIN
+
 * {
     box-sizing: border-box;
 }
@@ -10,6 +25,7 @@ body {
         'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background: $color-bg;
 }
 
 code {
@@ -21,16 +37,5 @@ code {
     height: 100vh;
 }
 
-// COLORS
-
-$color-bg: white;
-
-// MEDIA QUERIES
-$break-small: 576px;
-@mixin media-query($size) {
-    @if $size == sm {
-        @media only screen and (max-width: $break-small) { @content; }
-    }
-}
 
 @import 'layout.scss';

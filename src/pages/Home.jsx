@@ -13,8 +13,9 @@ class Home extends React.Component {
         const deckNames = Object.keys(sets);
 
         return (
-            <div>
-                <Link to="/game">Start Game</Link>
+            <div className="container home-container">
+                {gameStore.currPlaneIdx > 0 && <Link to="/game">Return To Game</Link>}
+                <Link to="/game" onClick={gameStore.resetDeck}>Start New Game</Link>
                 <select value={gameStore.selectedDeckId} onChange={this.onSelectDeck}>
                     <option value={ALL_DECKS}>All Decks</option>
                     {deckNames.map(key => <option value={key} key={key}>{sets[key].nameFormatted}</option>)}

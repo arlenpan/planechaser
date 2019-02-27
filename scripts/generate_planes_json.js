@@ -12,15 +12,19 @@ const getCards = (path, target) => {
             const cardNames = fs.readdirSync(deckPath);
             for (const cIdx in cardNames) {
                 const cardName = cardNames[cIdx];
-                const filePath = `${target}/${deckName}/${cardName}`;
-                cards[uuid()] = createCard(cardName, deckName, filePath);
+                if (cardName.endsWith('.jpg')) {
+                    const filePath = `${target}/${deckName}/${cardName}`;
+                    const id = uuid();
+                    cards[id] = createCard(id, cardName, deckName, filePath);
+                }
             }
         }
     }
     return cards;
 }
 
-const createCard = (cardName, deckName, path) => ({
+const createCard = (id, cardName, deckName, path) => ({
+        id,
         name: cardName,
         nameFormatted: cleanName(cardName, false),
         set: deckName,
