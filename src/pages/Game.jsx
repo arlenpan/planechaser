@@ -5,7 +5,8 @@ import { inject, observer } from 'mobx-react';
 
 import Modal from '../components/Modal';
 import { rollDie } from '../utils.js';
-import { CARD__CHAOTIC_AETHER, CARD__STAIRS_TO_INFINITY } from '../consts';
+import { CARD__CHAOTIC_AETHER, CARD__STAIRS_TO_INFINITY, CARD__INTERPLANAR_TUNNEL, CARD__POOLS_OF_BECOMING } from '../consts';
+import cards from '../data/cards.json';
 
 class Game extends React.Component {
     state = {
@@ -37,7 +38,7 @@ class Game extends React.Component {
     toggleScryModal = open => this.setState({ showScryModal: open ? open : !this.state.showScryModal });
 
     renderScryModal = currStatus => {
-        const { getNextPlanes, moveCardToBottom } = this.props.gameStore;
+        const { getNextPlanes, moveCardsToBottom, actionInterplanarTunnel } = this.props.gameStore;
         const nextPlanes = getNextPlanes(5);
         return (
             <Modal>
@@ -45,10 +46,37 @@ class Game extends React.Component {
                     <div>
                         <img className="game-plane" alt={nextPlanes[0].name} src={nextPlanes[0].path} />
                         <button onClick={() => {
-                            moveCardToBottom(1);
+                            moveCardsToBottom([1]);
                             this.setState({ showScryModal: false });
                         }}>Move To Bottom</button>
                         <button onClick={() => this.setState({ showScryModal: false })}>Close</button>
+                    </div>
+                }
+
+                {currStatus === CARD__INTERPLANAR_TUNNEL &&
+                    <div>
+                        {nextPlanes.map((plane, idx) => (
+                            <div>
+                                <img className="game-plane--small" alt={plane.name} src={plane.path} />
+                                <button onClick={() => {
+                                    actionInterplanarTunnel(idx + 1);
+                                    this.setState({ showScryModal: false });
+                                }}>Choose</button>
+                            </div>
+                        ))}
+                    </div>
+                }
+
+                {currStatus === CARD__POOLS_OF_BECOMING && 
+                    <div>
+                        {nextPlanes.map((plane, idx) => {
+                            if (idx > 2) return null;
+                            return <img className="game-plane--small" alt={plane.name} src={plane.path} />
+                        })}
+                        <button onClick={() => {
+                            moveCardsToBottom([1,2,3]);
+                            this.setState({ showScryModal: false });
+                        }}>Resolve</button>
                     </div>
                 }
             </Modal>
@@ -58,9 +86,12 @@ class Game extends React.Component {
     renderStatusEffect = currStatus => {
         if (currStatus === CARD__CHAOTIC_AETHER) {
             return <span>Each blank roll of the planar die is a CHAOS roll until a player planeswalks away from a plane.</span>
-        }
-        if (currStatus === CARD__STAIRS_TO_INFINITY) {
+        } else if (currStatus === CARD__STAIRS_TO_INFINITY) {
             return <button onClick={this.toggleScryModal}>CHAOS Roll Effect</button>;
+        } else if (currStatus === CARD__INTERPLANAR_TUNNEL) {
+            return <button onClick={this.toggleScryModal}>Resolve Encounter</button>;
+        } else if (currStatus === CARD__POOLS_OF_BECOMING) {
+            return <button onClick={this.toggleScryModal}>Resolve Encounter</button>;
         }
     }
 
@@ -68,6 +99,7 @@ class Game extends React.Component {
         const { gameStore, appStore } = this.props;
         const { dieResult, showScryModal } = this.state;
         const {
+            selectedDeck,
             currPlane,
             currStatus,
             resetDeck,
@@ -88,6 +120,8 @@ class Game extends React.Component {
                         src={currPlane.path}
                     />
                     {this.renderStatusEffect(currStatus)}
+
+                    {/* {selectedDeck.map(id => cards[id].name + '    ')}; */}
                 </div>
 
                 <div className="game-panel">

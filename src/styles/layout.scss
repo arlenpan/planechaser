@@ -28,6 +28,10 @@
         width: auto;
         height: auto;
     }
+    img.game-plane--small {
+        max-height: 25%;
+        max-width: 25%;
+    }
     .game-panel {
         display: flex;
         flex-direction: column;
@@ -57,6 +61,8 @@
         padding: 1rem;
         min-width: 10rem;
         max-width: 80%;
+        max-height: 80%;
+        overflow-y: scroll;
         display: flex;
         justify-content: center;
         align-items: center;

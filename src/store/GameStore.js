@@ -47,15 +47,33 @@ export default class GameStore {
 
     resetDeck = () => this.selectDeck(this.selectedDeckId);
 
-    moveCardToBottom = (idx = 0) => {
-        if (idx >= this.selectedDeck.length) return false;
-        this.selectedDeck.push(this.selectedDeck.splice(idx, 1)[0]);
-        return true;
+    moveCardsToBottom = (idxArr, shuffleDeck = false) => {
+        idxArr = idxArr.sort();
+        let toPush = [];
+        let spliceArr = [];
+        this.selectedDeck.forEach((id, idx) => {
+            if (idxArr.indexOf(idx) !== -1) {
+                toPush.push(id);
+            } else {
+                spliceArr.push(id);
+            }
+        });
+        if (shuffleDeck) toPush = shuffle(toPush);
+        this.selectedDeck = spliceArr.concat(toPush);
     }
 
     toNextCard = () => this.selectedDeck.push(this.selectedDeck.splice(0, 1)[0]);
 
     toPrevCard = () => this.selectedDeck.unshift(this.selectedDeck.splice(this.selectedDeck.length - 1, 1)[0]);
+
+    actionInterplanarTunnel = idx => {
+        let allIdx = [];
+        for (let i = 1; i <= 5 && i < this.selectedDeck.length; i++) {
+            if (i === idx) continue;
+            allIdx.push(i);
+        }
+        this.moveCardsToBottom(allIdx, true);
+    }
 }
 
 decorate(GameStore, {
@@ -67,9 +85,10 @@ decorate(GameStore, {
     selectDeck: action,
     shuffleDeck: action,
     resetDeck: action,
-    moveCardToBottom: action,
+    moveCardsToBottom: action,
     toNextCard: action,
-    toPrevCard: action
+    toPrevCard: action,
+    actionInterplanarTunnel: action
 });
 
 configure({ enforceActions: 'observed' });
