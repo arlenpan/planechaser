@@ -1,5 +1,5 @@
 import { decorate, observable, configure, action, computed } from "mobx";
-import { ALL_DECKS } from '../consts.js';
+import { ALL_DECKS, SPECIAL_CARDS, CARD__CHAOTIC_AETHER, CARD__SPATIAL_MERGING } from '../consts.js';
 import { shuffle } from '../utils.js';
 import cards from '../data/cards.json';
 import sets from '../data/sets.json';
@@ -9,8 +9,26 @@ export default class GameStore {
     selectedDeck = Object.keys(cards);
     currPlaneIdx = 0;
 
+    get prevPlane() {
+        if (this.currPlaneIdx === 0) {
+            return cards[this.selectedDeck[this.selectedDeck.length - 1]];
+        } else {
+            return cards[this.selectedDeck[this.currPlaneIdx - 1]];
+        }
+    }
+
     get currPlane() {
         return cards[this.selectedDeck[this.currPlaneIdx]];
+    }
+
+    get currStatus() {
+        if (this.prevPlane.name === CARD__CHAOTIC_AETHER || this.currPlane.name === CARD__CHAOTIC_AETHER) {
+            return CARD__CHAOTIC_AETHER;
+        } else if (this.prevPlane.name === CARD__SPATIAL_MERGING) {
+            return CARD__SPATIAL_MERGING;
+        } else {
+            return null;
+        }
     }
     
     selectDeck = deckId => {
@@ -56,7 +74,9 @@ decorate(GameStore, {
     selectedDeckId: observable,
     selectedDeck: observable,
     currPlaneIdx: observable,
+    prevPlane: computed,
     currPlane: computed,
+    currStatus: computed,
     selectDeck: action,
     shuffleDeck: action,
     resetDeck: action,
