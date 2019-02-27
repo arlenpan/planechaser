@@ -21,4 +21,16 @@ code {
     height: 100vh;
 }
 
-@import './styles/layout.scss';
+// COLORS
+
+$color-bg: white;
+
+// MEDIA QUERIES
+$break-small: 576px;
+@mixin media-query($size) {
+    @if $size == sm {
+        @media only screen and (max-width: $break-small) { @content; }
+    }
+}
+
+@import 'layout.scss';

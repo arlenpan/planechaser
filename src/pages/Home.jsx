@@ -6,16 +6,16 @@ import sets from '../data/sets.json';
 import { ALL_DECKS } from '../consts.js';
 
 class Home extends React.Component {
-    onSelectDeck = e => this.props.store.selectDeck(e.target.value);
+    onSelectDeck = e => this.props.gameStore.selectDeck(e.target.value);
 
     render() {
-        const { store } = this.props;
+        const { gameStore } = this.props;
         const deckNames = Object.keys(sets);
 
         return (
             <div>
                 <Link to="/game">Start Game</Link>
-                <select value={store.selectedDeckId} onChange={this.onSelectDeck}>
+                <select value={gameStore.selectedDeckId} onChange={this.onSelectDeck}>
                     <option value={ALL_DECKS}>All Decks</option>
                     {deckNames.map(key => <option value={key} key={key}>{sets[key].nameFormatted}</option>)}
                 </select>
@@ -25,4 +25,4 @@ class Home extends React.Component {
     }
 }
 
-export default inject('store')(observer(Home));
+export default inject('gameStore')(observer(Home));

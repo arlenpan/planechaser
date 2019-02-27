@@ -1,10 +1,10 @@
-import { decorate, observable, configure, action, computed } from "mobx";
-import { ALL_DECKS } from './consts.js';
-import { shuffle } from './utils.js';
-import cards from './data/cards.json';
-import sets from './data/sets.json';
+import { decorate, observable, configure, action } from "mobx";
+import { ALL_DECKS } from '../consts.js';
+import { shuffle } from '../utils.js';
+import cards from '../data/cards.json';
+import sets from '../data/sets.json';
 
-export default class Store {
+export default class GameStore {
     selectedDeckId = ALL_DECKS;
     selectedDeck = Object.keys(cards);
     
@@ -30,7 +30,7 @@ export default class Store {
     }
 }
 
-decorate(Store, {
+decorate(GameStore, {
     selectedDeckId: observable,
     selectedDeck: observable,
     selectDeck: action,

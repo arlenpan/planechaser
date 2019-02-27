@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { inject, observer } from 'mobx-react';
+
+import Modal from '../components/Modal';
 import cards from '../data/cards.json';
 import { rollDie } from '../utils.js';
  
@@ -11,8 +13,8 @@ class Game extends React.Component {
     };
 
     onRestart = () => {
-        const { store } = this.props;
-        store.selectDeck(store.selectedDeckId);
+        const { gameStore } = this.props;
+        gameStore.selectDeck(gameStore.selectedDeckId);
         this.setState({ currPlaneIdx: 0 });
     }
 
@@ -21,15 +23,15 @@ class Game extends React.Component {
     }
 
     onShuffle = () => {
-        const { store } = this.props;
-        store.shuffleDeck();
+        const { gameStore } = this.props;
+        gameStore.shuffleDeck();
         this.setState({ currPlaneIdx: 0 });
     }
 
     toNextPlane = () => {
-        const { store } = this.props;
+        const { gameStore } = this.props;
         const { currPlaneIdx } = this.state;
-        if (currPlaneIdx + 1 < store.selectedDeck.length) {
+        if (currPlaneIdx + 1 < gameStore.selectedDeck.length) {
             this.setState({ currPlaneIdx: currPlaneIdx + 1 });
         } else {
             this.setState({ currPlaneIdx: 0 });
@@ -37,30 +39,33 @@ class Game extends React.Component {
     }
 
     toPrevPlane = () => {
-        const { store } = this.props;
+        const { gameStore } = this.props;
         const { currPlaneIdx } = this.state;
         if (currPlaneIdx > 0) {
             this.setState({ currPlaneIdx: currPlaneIdx - 1 });
         } else {
-            this.setState({ currPlaneIdx: store.selectedDeck.length - 1 });
+            this.setState({ currPlaneIdx: gameStore.selectedDeck.length - 1 });
         }
     }
 
     moveToBottom = () => {
-        const { store } = this.props;
+        const { gameStore } = this.props;
         const { currPlaneIdx } = this.state;
-        const cardId = store.selectedDeck[currPlaneIdx];
-        store.moveToBottom(cardId);
+        const cardId = gameStore.selectedDeck[currPlaneIdx];
+        gameStore.moveToBottom(cardId);
     }
 
     render() {
-        const { store } = this.props;
+        const { gameStore, appStore } = this.props;
         const { dieResult, currPlaneIdx } = this.state;
-        const currPlane = cards[store.selectedDeck[currPlaneIdx]];
+        const currPlane = cards[gameStore.selectedDeck[currPlaneIdx]];
 
         return (
             <div className="game-container">
                 {/* {currPlane.name} */}
+                {/* <Modal>
+                    Test
+                </Modal> */}
                 <img className="game-plane" alt={currPlane} src={currPlane.path} />
                 <div className="game-panel">
                     <Link to="/">Back To Home</Link>
@@ -70,12 +75,13 @@ class Game extends React.Component {
                     <button onClick={this.onRoll}>Roll Die</button>
                     <button onClick={this.toPrevPlane}>Back</button>
                     <button onClick={this.toNextPlane}>Planeswalk</button>
+                    <button onClick={() => appStore.toggleModal()}>Toggle</button>
                     {dieResult}
                 </div>
-                {/* {store.selectedDeck.map(id => cards[id].name + ' ')} */}
+                {/* {gameStore.selectedDeck.map(id => cards[id].name + ' ')} */}
             </div>
         );
     }
 }
 
-export default inject('store')(observer(Game));
+export default inject('gameStore', 'appStore')(observer(Game));

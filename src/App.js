@@ -4,14 +4,16 @@ import { Provider } from 'mobx-react';
 
 import Home from './pages/Home';
 import Game from './pages/Game';
-import Store from './Store.js';
+import GameStore from './store/GameStore.js';
+import AppStore from './store/AppStore.js';
 
-const store = new Store();
+const gameStore = new GameStore();
+const appStore = new AppStore();
 
 export default class App extends React.Component {
     render() {
         return (
-            <Provider store={store}>
+            <Provider gameStore={gameStore} appStore={appStore}>
                 <Router>
                     <div className="main-container">
                         <Route path="/game" component={Game} />
