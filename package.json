@@ -17,7 +17,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "aws s3 sync build/ s3://planechaser --delete"
+    "deploy": "aws s3 sync build/ s3://planechaser --delete --profile arlen"
   },
   "eslintConfig": {
     "extends": "react-app"

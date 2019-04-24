@@ -14,13 +14,18 @@ class Home extends React.Component {
 
         return (
             <div className="container home-container">
-                {gameStore.currPlaneIdx > 0 && <Link to="/game">Return To Game</Link>}
-                <Link to="/game" onClick={gameStore.resetDeck}>Start New Game</Link>
-                <select value={gameStore.selectedDeckId} onChange={this.onSelectDeck}>
-                    <option value={ALL_DECKS}>All Decks</option>
-                    {deckNames.map(key => <option value={key} key={key}>{sets[key].nameFormatted}</option>)}
-                </select>
-                {/* <Link to="/createDeck">Create New Deck</Link> */}
+                <div className="subcontainer">
+                    {gameStore.currPlaneIdx > 0 && <Link to="/game">Return To Game</Link>}
+                    <h1>planechaser</h1>
+                    <Link to="/game" onClick={gameStore.resetDeck}>
+                        <button className="button-main">NEW GAME</button>
+                    </Link>
+                    <select value={gameStore.selectedDeckId} onChange={this.onSelectDeck}>
+                        <option value={ALL_DECKS}>All Decks</option>
+                        {deckNames.map(key => <option value={key} key={key}>{sets[key].nameFormatted}</option>)}
+                    </select>
+                    {/* <Link to="/createDeck">Create New Deck</Link> */}
+                </div>
             </div>
         );
     }

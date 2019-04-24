@@ -1,7 +1,10 @@
-
+// =============================================================================
 // COLORS
 
-$color-bg: #FFFFFD;
+$color-bg: #fbf7f5;
+$color-button: #67C6AB;
+$color-button--hover: #427F6D;
+$color-button--active: #82D0BA;
 
 // MEDIA QUERIES
 $break-small: 576px;
@@ -11,6 +14,7 @@ $break-small: 576px;
     }
 }
 
+// =============================================================================
 // MAIN
 
 * {
@@ -37,5 +41,32 @@ code {
     height: 100vh;
 }
 
+// =============================================================================
+// STYLING
+
+button {
+    background-color: $color-button;
+    border: none;
+    outline: none;
+    padding: 0.5rem;
+    color: white;
+    font-weight: 500;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background-color: $color-button--hover;
+    }
+    
+    &:active {
+        background-color: $color-button--active;
+    }
+
+    &.button-main {
+        font-size: 150%;
+        padding: 0.5rem 1rem;
+    }
+}
 
 @import 'layout.scss';
+@import 'home.scss';
+@import 'game.scss';

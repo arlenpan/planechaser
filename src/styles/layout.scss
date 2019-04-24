@@ -6,43 +6,12 @@
     justify-content: center;
 }
 
-.home-container {
+.subcontainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     flex-direction: column;
-    * {
-        margin-bottom: 1rem;
-    }
 }
-
-.game-container {
-    padding: 1rem;
-    @media all and (orientation:portrait) {
-        flex-direction: column;
-    }
-    .game-img {
-        display: flex;
-        flex-direction: column;
-    }
-    img.game-plane {
-        max-height: 100%;
-        max-width: 100%;
-        width: auto;
-        height: auto;
-    }
-    img.game-plane--small {
-        max-height: 25%;
-        max-width: 25%;
-    }
-    .game-panel {
-        display: flex;
-        flex-direction: column;
-        padding: 1rem;
-        button {
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-    }
-}
-
 
 .modal {
     position: fixed;
