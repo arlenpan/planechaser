@@ -85,9 +85,13 @@ class Game extends React.Component {
 
     renderStatusEffect = currStatus => {
         if (currStatus === CARD__CHAOTIC_AETHER) {
-            return <span>Each blank roll of the planar die is a CHAOS roll until a player planeswalks away from a plane.</span>
-        } else if (currStatus === CARD__STAIRS_TO_INFINITY) {
-            return <button onClick={this.toggleScryModal}>CHAOS Roll Effect</button>;
+            return <span className="status">Each blank roll of the planar die is a CHAOS roll until a player planeswalks away from a plane.</span>
+        }
+    }
+
+    renderStatusAction = currStatus => {
+        if (currStatus === CARD__STAIRS_TO_INFINITY) {
+            return <button className="btn-danger" onClick={this.toggleScryModal}>CHAOS</button>;
         } else if (currStatus === CARD__INTERPLANAR_TUNNEL) {
             return <button onClick={this.toggleScryModal}>Resolve Encounter</button>;
         } else if (currStatus === CARD__POOLS_OF_BECOMING) {
@@ -113,26 +117,28 @@ class Game extends React.Component {
                 {dieResult && this.renderDieModal()}
                 {showScryModal && this.renderScryModal(currStatus)}
 
-                <div className="game-img">
+                <div className="game-img-wrapper">
                     <img
                         className="game-plane"
                         alt={currPlane.id}
                         src={currPlane.path}
                     />
-                    {this.renderStatusEffect(currStatus)}
-
                     {/* {selectedDeck.map(id => cards[id].name + '    ')}; */}
                 </div>
 
                 <div className="game-panel">
-                    <Link to="/">Back To Home</Link>
+                    <Link to="/">Home</Link>
                     <button onClick={resetDeck}>Restart</button>
                     <button onClick={shuffleDeck}>Shuffle</button>
                     <button onClick={this.onRoll}>Roll Die</button>
                     <button onClick={toPrevCard}>Back</button>
-                    <button onClick={toNextCard}>Planeswalk</button>
+                    <button className="btn-primary" onClick={toNextCard}>Planeswalk</button>
+                    {this.renderStatusAction(currStatus)}
                 </div>
 
+                <div className="game-status">
+                    {this.renderStatusEffect(currStatus)}
+                </div>
             </div>
         );
     }

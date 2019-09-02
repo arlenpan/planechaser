@@ -5,6 +5,7 @@ $color-bg: #fbf7f5;
 $color-button: #67C6AB;
 $color-button--hover: #427F6D;
 $color-button--active: #82D0BA;
+$color-danger: #ff6961;
 
 // MEDIA QUERIES
 $break-small: 576px;
@@ -45,6 +46,7 @@ code {
 // STYLING
 
 button {
+    cursor: pointer;
     background-color: $color-button;
     border: none;
     outline: none;

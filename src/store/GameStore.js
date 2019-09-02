@@ -5,23 +5,20 @@ import cards from '../data/cards.json';
 import sets from '../data/sets.json';
 
 export default class GameStore {
+    // OBSERVABLES
     selectedDeckId = ALL_DECKS;
     selectedDeck = Object.keys(cards);
 
+    // COMPUTES
+    // bottom of the deck is last card
     get prevPlane() {
+        if (this.selectedDeck.length === 0) return null;
         return cards[this.selectedDeck[this.selectedDeck.length - 1]];
     }
 
+    // top of the deck is current card
     get currPlane() {
         return cards[this.selectedDeck[0]];
-    }
-
-    getNextPlanes = count => {
-        const planes = [];
-        for (let i = 1; i <= count && i < this.selectedDeck.length; i++ ) {
-            planes.push(cards[this.selectedDeck[i]]);
-        }
-        return planes;
     }
 
     get currStatus() {
@@ -34,6 +31,7 @@ export default class GameStore {
         }
     }
     
+    // ACTIONS
     selectDeck = deckId => {
         this.selectedDeckId = deckId;
         if (deckId === ALL_DECKS) {
@@ -44,8 +42,15 @@ export default class GameStore {
     }
 
     shuffleDeck = () => this.selectedDeck = shuffle(this.selectedDeck);
-
     resetDeck = () => this.selectDeck(this.selectedDeckId);
+
+    getNextPlanes = count => {
+        const planes = [];
+        for (let i = 1; i <= count && i < this.selectedDeck.length; i++ ) {
+            planes.push(cards[this.selectedDeck[i]]);
+        }
+        return planes;
+    }
 
     moveCardsToBottom = (idxArr, shuffleDeck = false) => {
         idxArr = idxArr.sort();
@@ -76,12 +81,18 @@ export default class GameStore {
     }
 }
 
-decorate(GameStore, {
+const observables = {
     selectedDeckId: observable,
     selectedDeck: observable,
+};
+
+const computes = {
     prevPlane: computed,
     currPlane: computed,
-    currStatus: computed,
+    currStatus: computed
+};
+
+const actions = {
     selectDeck: action,
     shuffleDeck: action,
     resetDeck: action,
@@ -89,6 +100,7 @@ decorate(GameStore, {
     toNextCard: action,
     toPrevCard: action,
     actionInterplanarTunnel: action
-});
+};
 
+decorate(GameStore, Object.assign({}, observables, computes, actions));
 configure({ enforceActions: 'observed' });

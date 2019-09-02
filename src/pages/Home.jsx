@@ -6,7 +6,11 @@ import sets from '../data/sets.json';
 import { ALL_DECKS } from '../consts.js';
 
 class Home extends React.Component {
-    onSelectDeck = e => this.props.gameStore.selectDeck(e.target.value);
+    onSelectDeck = e => {
+        const { gameStore } = this.props;
+        const deck = e.target.value;
+        gameStore.selectDeck(deck);
+    }
 
     render() {
         const { gameStore } = this.props;
