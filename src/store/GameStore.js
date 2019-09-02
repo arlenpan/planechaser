@@ -10,15 +10,17 @@ export default class GameStore {
     selectedDeck = Object.keys(cards);
 
     // COMPUTES
-    // bottom of the deck is last card
     get prevPlane() {
+        // bottom of the deck is last card
         if (this.selectedDeck.length === 0) return null;
         return cards[this.selectedDeck[this.selectedDeck.length - 1]];
     }
-
-    // top of the deck is current card
     get currPlane() {
+        // top of the deck is current card
         return cards[this.selectedDeck[0]];
+    }
+    get nextPlane() {
+        return cards[this.selectedDeck[1]];
     }
 
     get currStatus() {
@@ -42,6 +44,7 @@ export default class GameStore {
     }
 
     shuffleDeck = () => this.selectedDeck = shuffle(this.selectedDeck);
+
     resetDeck = () => this.selectDeck(this.selectedDeckId);
 
     getNextPlanes = count => {
@@ -52,7 +55,7 @@ export default class GameStore {
         return planes;
     }
 
-    moveCardsToBottom = (idxArr, shuffleDeck = false) => {
+    moveCardsToBottom = (idxArr, shuffleCards = false) => {
         idxArr = idxArr.sort();
         let toPush = [];
         let spliceArr = [];
@@ -63,7 +66,7 @@ export default class GameStore {
                 spliceArr.push(id);
             }
         });
-        if (shuffleDeck) toPush = shuffle(toPush);
+        if (shuffleCards) toPush = shuffle(toPush);
         this.selectedDeck = spliceArr.concat(toPush);
     }
 
@@ -72,12 +75,12 @@ export default class GameStore {
     toPrevCard = () => this.selectedDeck.unshift(this.selectedDeck.splice(this.selectedDeck.length - 1, 1)[0]);
 
     actionInterplanarTunnel = idx => {
-        let allIdx = [];
+        let toPush = [];
         for (let i = 1; i <= 5 && i < this.selectedDeck.length; i++) {
             if (i === idx) continue;
-            allIdx.push(i);
+            toPush.push(i);
         }
-        this.moveCardsToBottom(allIdx, true);
+        this.moveCardsToBottom(toPush, true);
     }
 }
 
@@ -89,6 +92,7 @@ const observables = {
 const computes = {
     prevPlane: computed,
     currPlane: computed,
+    nextPlane: computed,
     currStatus: computed
 };
 

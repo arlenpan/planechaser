@@ -9,9 +9,15 @@
     a, button {
         width: 100%;
         margin-bottom: 0.25rem;
+        text-align: center;
     }
 
     select {
         width: 100%;
+    }
+
+    .subcontainer-column {
+        display: flex;
+        align-items: center;
     }
 }

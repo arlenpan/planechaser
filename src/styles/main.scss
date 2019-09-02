@@ -69,6 +69,28 @@ button {
     }
 }
 
+// =============================================================================
+// UTILITY
+
+.d-flex {
+    display: flex;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+.flex-row {
+    flex-direction: row;
+}
+
+.ml-1 {
+    margin-left: 1rem;
+}
+.mt-1 {
+    margin-top: 1rem;
+}
+
+
 @import 'layout.scss';
 @import 'home.scss';
 @import 'game.scss';

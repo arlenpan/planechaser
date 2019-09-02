@@ -18,7 +18,7 @@ class Home extends React.Component {
 
         return (
             <div className="container home-container">
-                <div className="subcontainer">
+                <div className="subcontainer-column">
                     {gameStore.currPlaneIdx > 0 && <Link to="/game">Return To Game</Link>}
                     <h1>planechaser</h1>
                     <Link to="/game" onClick={gameStore.resetDeck}>
@@ -29,6 +29,9 @@ class Home extends React.Component {
                         {deckNames.map(key => <option value={key} key={key}>{sets[key].nameFormatted}</option>)}
                     </select>
                     {/* <Link to="/createDeck">Create New Deck</Link> */}
+                    <a className="mt-1" href="https://magic.wizards.com/en/articles/archive/feature/rules-revealed-2009-08-10" target="_blank" rel="noopener noreferrer">
+                        Rules
+                    </a>
                 </div>
             </div>
         );
