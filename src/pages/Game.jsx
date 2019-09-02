@@ -28,13 +28,16 @@ class Game extends React.Component {
 
     renderDieModal = () => {
         const { dieResult } = this.state;
+        const { currStatus } = this.props.gameStore;
+        let text = dieResult;
+        if (dieResult === 6) {
+            text = 'PLANESWALK!';
+        } else if (dieResult === 1 || currStatus === CARD__CHAOTIC_AETHER) {
+            text = 'CHAOS!';
+        }
         return (
             <Modal onClose={e => this.setState({ dieResult: null })}>
-                <h3>
-                    {dieResult === 1 && 'CHAOS!'}
-                    {dieResult === 6 && 'PLANESWALK!'}
-                    {dieResult !== 1 && dieResult !== 6 && dieResult}
-                </h3>
+                <h3>{text}</h3>
             </Modal>
         );
     }
